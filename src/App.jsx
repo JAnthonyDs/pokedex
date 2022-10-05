@@ -29,10 +29,13 @@ function App() {
       }
 
     }
+
     search()
   },[id])
 
-  async function searchForName(){
+  async function searchForName() {
+    if (searchName.trim() === '') return;
+
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${searchName}`)
     setNome(response.data.name)
     setId(response.data.id)
@@ -48,6 +51,7 @@ function App() {
 
   function previous(){
     let atual = id
+    if (atual - 1 <= 0) return;
     setId(atual-1)
     
   }
@@ -61,13 +65,13 @@ function App() {
         <span className="pokemonName">{nome}</span>
       </h1>
 
-      <div className='btn'>
-        <button onClick={previous} className="ant">-</button>
-        <button onClick={next} className="next">+</button>
+      <div className='keyboard'>
+        <button onClick={previous} className="btn ant"></button>
+        <button onClick={next} className="btn next"></button>
       </div>
 
       <input type='search' placeholder='search' onChange={e => setSearchName(e.target.value)}></input>
-      <button className='search' onClick={searchForName}>o</button>
+      <button className='btn search' onClick={searchForName}></button>
 
       <img src={pokedex} className="pokedex"></img>
     </main>
